@@ -206,19 +206,38 @@ void swapValues(int &a, int &b)
 // Task 4: Mirror the image (left side goes to the right side).
 void flipHorizontal(int image[][MAX_SIZE], int rows, int cols)
 {
-    // TODO
+    for (int i = 0; i < rows / 2; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            swapValues(image[i][j], image[rows - i - 1][j]);
+        }
+    }
 }
 
 // Task 4: Turn the image upside down.
 void flipVertical(int image[][MAX_SIZE], int rows, int cols)
 {
-    // TODO
+    // Vertical
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols / 2; j++)
+        {
+            swapValues(image[i][j], image[i][cols - j - 1]);
+        }
+    }
 }
 
 // Task 5: Copy rows x cols pixels from the array "from" into the array "to".
 void copyImage(int from[][MAX_SIZE], int to[][MAX_SIZE], int rows, int cols)
 {
-    // TODO
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            to[i][j] = from[i][j];
+        }
+    }
 }
 
 // Task 5: Rotate 90 degrees clockwise.
