@@ -156,11 +156,9 @@ bool savePGM(const char fileName[], int image[][MAX_SIZE], int rows, int cols)
 
 // Task 1: Add "amount" to every pixel.
 // If a pixel goes below 0 make it 0. If it goes above 255 make it 255.
-void changeBrightness(int image[][MAX_SIZE], int rows, int cols, int amount)
+void changeBrightness(int image[][MAX_SIZE], int rows, int cols, int n)
 {
-    int n;
-    cout << "Enter the values of n : ";
-    cin >> n;
+
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
@@ -182,6 +180,13 @@ void changeBrightness(int image[][MAX_SIZE], int rows, int cols, int amount)
 // Task 2: Every pixel p becomes 255 - p.
 void makeNegative(int image[][MAX_SIZE], int rows, int cols)
 {
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            image[i][j] = 255 - image[i][j];
+        }
+    }
 }
 
 // Task 3: A pixel that is >= limit becomes 255 (white). Every other pixel becomes 0 (black).
@@ -193,7 +198,9 @@ void makeBlackWhite(int image[][MAX_SIZE], int rows, int cols, int limit)
 // Task 4: Swap the values of a and b.
 void swapValues(int &a, int &b)
 {
-    // TODO
+    int c = a;
+    a = b;
+    b = c;
 }
 
 // Task 4: Mirror the image (left side goes to the right side).
