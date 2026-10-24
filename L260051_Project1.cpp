@@ -244,7 +244,15 @@ void copyImage(int from[][MAX_SIZE], int to[][MAX_SIZE], int rows, int cols)
 // Write the rotated picture into temp, copy it back into image, then swap rows and cols.
 void rotateClockwise(int image[][MAX_SIZE], int temp[][MAX_SIZE], int &rows, int &cols)
 {
-    // TODO
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            temp[i][j] = image[rows - 1 - j][i];
+        }
+    }
+    copyImage(temp, image, rows, cols);
 }
 
 // Task 5: Rotate 90 degrees anti-clockwise.
