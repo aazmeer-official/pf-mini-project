@@ -259,25 +259,75 @@ void rotateClockwise(int image[][MAX_SIZE], int temp[][MAX_SIZE], int &rows, int
 void rotateAntiClockwise(int image[][MAX_SIZE], int temp[][MAX_SIZE], int &rows, int &cols)
 {
     // TODO
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            temp[i][j] = image[j][cols - 1 - i];
+        }
+    }
+    copyImage(temp, image, rows, cols);
 }
 
 // Task 5: Rotate 180 degrees. Do NOT write any loop here. Call your other functions.
 void rotate180(int image[][MAX_SIZE], int temp[][MAX_SIZE], int &rows, int &cols)
 {
     // TODO
+    flipHorizontal(image, rows, cols);
+    flipVertical(image, rows, cols);
 }
 
 // Task 6: Blur. Every pixel (except the border) becomes the average of
 // the 3 x 3 block around it. Border pixels do not change.
 void blurImage(int image[][MAX_SIZE], int temp[][MAX_SIZE], int rows, int cols)
 {
-    // TODO
+
+    copyImage(image, temp, rows, cols);
+    int three[3][3] = {};
+    int n = 3;
+    int start_r = 0;
+    while (start_r < rows - 2)
+    {
+        int start_c = 0;
+        while (start_c < cols - 2)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    three[i][j] = image[i + start_r][j + start_c];
+                }
+            }
+            int sum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    sum += three[i][j];
+                }
+            }
+            int avg = sum / 9;
+            temp[1 + start_r][1 + start_c] = avg;
+            start_c++;
+        }
+        start_r++;
+    }
+    copyImage(temp, image, rows, cols);
 }
 
 // Task 7: Sort arr[0] to arr[n-1] in ascending order. Return the number of comparisons between two array elements.
 int sortArray(int arr[], int n)
 {
-    // TODO
+    for (int i = 0; i < n - 1; i++)
+    {
+        for (int j = 0; j < n - i - 1; j++)
+        {
+            if (arr[j] > arr[j + 1])
+            {
+                swapValues(arr[j], arr[j + 1]);
+            }
+        }
+    }
     return 0;
 }
 
@@ -285,14 +335,53 @@ int sortArray(int arr[], int n)
 // value of its sorted 3 x 3 block. Return the total comparisons made by sortArray.
 int removeNoise(int image[][MAX_SIZE], int temp[][MAX_SIZE], int rows, int cols)
 {
-    // TODO
+
+    copyImage(image, temp, rows, cols);
+
+    int three[3][3] = {};
+    int n = 3;
+    int start_r = 0;
+    int straight[9] = {};
+    while (start_r < rows - 2)
+    {
+        int start_c = 0;
+        while (start_c < cols - 2)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    three[i][j] = image[start_r + i][start_c + j];
+                }
+            }
+            int count = 0;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    straight[count] = three[i][j];
+                    count++;
+                }
+            }
+
+            sortArray(straight, count);
+
+            int value = straight[4];
+            temp[start_r + 1][start_c + 1] = value;
+
+            start_c++;
+        }
+        start_r++;
+    }
+
+    copyImage(temp, image, rows, cols);
     return 0;
 }
 
 // Bonus: Find edges (see the project document for the formula).
 void findEdges(int image[][MAX_SIZE], int temp[][MAX_SIZE], int rows, int cols)
 {
-    // TODO (optional)
+    copyImage(image, temp, rows, cols);
 }
 
 /* =====================================================================
