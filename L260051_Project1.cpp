@@ -193,6 +193,22 @@ void makeNegative(int image[][MAX_SIZE], int rows, int cols)
 void makeBlackWhite(int image[][MAX_SIZE], int rows, int cols, int limit)
 {
     // TODO
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            int value = image[i][j];
+            if (value >= limit)
+            {
+                value = 255;
+            }
+            else if (value < limit)
+            {
+                value = 0;
+            }
+            image[i][j] = value;
+        }
+    }
 }
 
 // Task 4: Swap the values of a and b.
@@ -378,10 +394,56 @@ int removeNoise(int image[][MAX_SIZE], int temp[][MAX_SIZE], int rows, int cols)
     return 0;
 }
 
-// Bonus: Find edges (see the project document for the formula).
 void findEdges(int image[][MAX_SIZE], int temp[][MAX_SIZE], int rows, int cols)
 {
-    copyImage(image, temp, rows, cols);
+    copyImage(image, temp, rows, cols); // temp mein original
+
+    // image ko 0 kar do, border automatically 0 rahega
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            image[i][j] = 0;
+        }
+    }
+
+    int block[3][3];
+
+    for (int r = 1; r < rows - 1; r++)
+    {
+        for (int c = 1; c < cols - 1; c++)
+        {
+            // 3x3 block temp se copy
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    block[i][j] = temp[r - 1 + i][c - 1 + j];
+                }
+            }
+
+            int gx = (block[0][2] + 2 * block[1][2] + block[2][2]) - (block[0][0] + 2 * block[1][0] + block[2][0]);
+
+            int gy = (block[2][0] + 2 * block[2][1] + block[2][2]) - (block[0][0] + 2 * block[0][1] + block[0][2]);
+
+            if (gx < 0)
+            {
+                gx = -gx;
+            }
+            if (gy < 0)
+            {
+                gy = -gy;
+            }
+
+            int val = gx + gy;
+            if (val > 255)
+            {
+                val = 255;
+            }
+
+            image[r][c] = val;
+        }
+    }
 }
 
 /* =====================================================================
